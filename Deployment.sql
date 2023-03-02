@@ -55,6 +55,21 @@ CREATE TABLE Blog (
 GO
 
 
+CREATE TABLE BlogComment (
+	BlogCommentId INT NOT NULL IDENTITY(1, 1),
+	ParentBlogCommentId INT NULL,
+	BlogId INT NOT NULL,
+	ApplicationUserId INT NOT NULL,
+	Content VARCHAR(300) NOT NULL,
+	PublishDate DATETIME NOT NULL DEFAULT GETDATE(),
+	UpdateDate DATETIME NOT NULL DEFAULT GETDATE(),
+	ActiveInd BIT NOT NULL DEFAULT CONVERT(BIT, 1),
+	PRIMARY KEY(BlogCommentId),
+	FOREIGN KEY(BlogId) REFERENCES Blog(BlogId),
+	FOREIGN KEY(ApplicationUserId) REFERENCES ApplicationUser(ApplicationUserId)
+)
+GO
+
 -- Types
 
 CREATE TYPE [dbo].[AccountType] AS TABLE(
@@ -82,6 +97,13 @@ CREATE TYPE [dbo].[BlogType] AS TABLE(
 )
 GO
 
+CREATE TYPE [dbo].[BlogCommentType] AS TABLE(
+	[BlogCommentId] [int] NOT NULL,
+	[ParentBlogCommentId] [int] NULL,
+	[BlogId] [int] NOT NULL,
+	[Content] [varchar](300) NOT NULL
+)
+GO
 
 -- Stored procedures
 
@@ -347,6 +369,134 @@ AS
 			SOURCE.[Title],
 			SOURCE.[Content],
 			SOURCE.[PhotoId]
+		);
+
+	SELECT CAST(SCOPE_IDENTITY() AS INT);
+GO
+
+CREATE PROCEDURE [dbo].[BlogComment_Delete]
+	@BlogCommentId INT
+AS
+
+	DROP TABLE IF EXISTS #BlogCommentsToBeDeleted;
+
+	WITH cte_blogComments AS (
+		SELECT
+			t1.[BlogCommentId],
+			t1.[ParentBlogCommentId]
+		FROM
+			[dbo].[BlogComment] t1
+		WHERE
+			t1.[BlogCommentId] = @BlogCommentId
+		UNION ALL
+		SELECT
+			t2.[BlogCommentId],
+			t2.[ParentBlogCommentId]
+		FROM
+			[dbo].[BlogComment] t2
+			INNER JOIN cte_blogComments t3
+				ON t3.[BlogCommentId] = t2.[ParentBlogCommentId]
+	)
+	SELECT
+		[BlogCommentId],
+		[ParentBlogCommentId]
+	INTO
+		#BlogCommentsToBeDeleted
+	FROM
+		cte_blogComments;
+
+	UPDATE t1
+	SET
+		t1.[ActiveInd] = CONVERT(BIT, 0),
+		t1.[UpdateDate] = GETDATE()
+	FROM
+		[dbo].[BlogComment] t1
+		INNER JOIN #BlogCommentsToBeDeleted t2
+			ON t1.[BlogCommentId]= t2.[BlogCommentId];
+GO
+
+CREATE PROCEDURE [dbo].[BlogComment_Get]
+	@BlogCommentId INT
+AS
+
+	SELECT 
+		 t1.[BlogCommentId]
+		,t1.[ParentBlogCommentId]
+		,t1.[BlogId]
+		,t1.[ApplicationUserId]
+		,t1.[Username]
+		,t1.[Content]
+		,t1.[PublishDate]
+		,t1.[UpdateDate]
+	FROM 
+		[aggregate].[BlogComment] t1
+	WHERE
+		t1.[BlogCommentId] = @BlogCommentId AND
+		t1.[ActiveInd] = CONVERT(BIT, 1)
+GO
+
+CREATE PROCEDURE [dbo].[BlogComment_GetAll]
+	@BlogId INT
+AS
+	
+	SELECT 
+		 t1.[BlogCommentId]
+		,t1.[ParentBlogCommentId]
+		,t1.[BlogId]
+		,t1.[ApplicationUserId]
+		,t1.[Username]
+		,t1.[Content]
+		,t1.[PublishDate]
+		,t1.[UpdateDate]
+	FROM 
+		[aggregate].[BlogComment] t1
+	WHERE
+		t1.[BlogId] = @BlogId AND
+		t1.[ActiveInd] = CONVERT(BIT, 1)
+	ORDER BY
+		t1.[UpdateDate]
+	DESC
+
+
+GO
+
+CREATE PROCEDURE [dbo].[BlogComment_Upsert]
+	@BlogComment BlogCommentType READONLY,
+	@ApplicationUserId INT
+AS
+
+	MERGE INTO [dbo].[BlogComment] TARGET
+	USING (
+		SELECT 
+			[BlogCommentId],
+			[ParentBlogCommentId],
+			[BlogId],
+			[Content],
+			@ApplicationUserId [ApplicationUserId]
+		FROM
+		@BlogComment
+	) AS SOURCE
+	ON
+	(
+		TARGET.[BlogCommentId] = SOURCE.[BlogCommentId] AND TARGET.[ApplicationUserId] = SOURCE.[ApplicationUserId]
+	)
+	WHEN MATCHED THEN
+		UPDATE SET
+			TARGET.[Content] = SOURCE.[Content],
+			TARGET.[UpdateDate] = GETDATE()
+	WHEN NOT MATCHED BY TARGET THEN
+		INSERT (
+			[ParentBlogCommentId],
+			[BlogId],
+			[ApplicationUserId],
+			[Content]
+		)
+		VALUES
+		(	
+			SOURCE.[ParentBlogCommentId],
+			SOURCE.[BlogId],
+			SOURCE.[ApplicationUserId],
+			SOURCE.[Content]
 		);
 
 	SELECT CAST(SCOPE_IDENTITY() AS INT);
