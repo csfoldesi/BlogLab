@@ -110,10 +110,10 @@ namespace BlogLab.Repository
         public async Task<Blog> UpsertAsync(BlogCreate blogCreate, int applicationUserId)
         {
             var dataTable = new DataTable();
-            dataTable.Columns.Add("BlogId", typeof(string));
+            dataTable.Columns.Add("BlogId", typeof(int));
             dataTable.Columns.Add("Title", typeof(string));
             dataTable.Columns.Add("Content", typeof(string));
-            dataTable.Columns.Add("PhotoId", typeof(string));
+            dataTable.Columns.Add("PhotoId", typeof(int));
 
             dataTable.Rows.Add(blogCreate.BlogId, blogCreate.Title, blogCreate.Content, blogCreate.PhotoId);
 
