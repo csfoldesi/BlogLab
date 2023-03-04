@@ -1,6 +1,6 @@
 ﻿using BlogLab.Models.Account;
 using Dapper;
-using Microsoft.AspNet.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using System.Data;
 using System.Data.SqlClient;
