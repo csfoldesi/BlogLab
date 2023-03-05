@@ -1,6 +1,6 @@
 ﻿namespace BlogLab.Models.Settings
 {
-    internal class CloudinaryOptions
+    public class CloudinaryOptions
     {
         public string? CludName { get; set; }
 

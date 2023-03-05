@@ -1,3 +1,5 @@
+using BlogLab.Models.Settings;
+
 namespace BlogLab.Web
 {
     public class Program
@@ -8,6 +10,7 @@ namespace BlogLab.Web
 
             // Add services to the container.
             builder.Services.AddRazorPages();
+            builder.Services.Configure<CloudinaryOptions>(builder.Configuration.GetSection("CloudinaryOptions"));
 
             var app = builder.Build();
 
