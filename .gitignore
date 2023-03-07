@@ -447,3 +447,5 @@ Thumbs.db
 
 
 BlogLab-UI/.angular/
+/BlogLab.Web/appsettings.Development.json
+/BlogLab.Web/appsettings.json
