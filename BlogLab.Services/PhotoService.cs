@@ -18,7 +18,7 @@ namespace BlogLab.Services
 
         public PhotoService(IOptions<CloudinaryOptions> config)
         {
-            var account = new Account(config.Value.CludName, config.Value.ApiKey, config.Value.ApiSecret);
+            var account = new Account(config.Value.CloudName, config.Value.ApiKey, config.Value.ApiSecret);
             _cloudinary = new Cloudinary(account);
         }
 
