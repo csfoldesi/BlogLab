@@ -20,9 +20,6 @@ namespace BlogLab.Web
             
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            builder.Services.AddRazorPages();
-
             builder.Services.Configure<CloudinaryOptions>(builder.Configuration.GetSection("CloudinaryOptions"));
 
             builder.Services.AddScoped<ITokenService, TokenService>();
@@ -33,7 +30,7 @@ namespace BlogLab.Web
             builder.Services.AddScoped<IAccountRepository, AccountRepository>();
             builder.Services.AddScoped<IPhotoRepository, PhotoRepository>();
 
-            builder.Services
+            builder.Services                
                 .AddIdentityCore<ApplicationUserIdentity>(opt =>
                 {
                     opt.Password.RequireNonAlphanumeric = false;
@@ -68,7 +65,7 @@ namespace BlogLab.Web
                         ClockSkew = TimeSpan.Zero
                     };
                 });
-
+            
 
             var app = builder.Build();
 
@@ -87,7 +84,7 @@ namespace BlogLab.Web
 
             app.UseRouting();
 
-            app.UseAuthorization();
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoins =>
