@@ -45,7 +45,7 @@ namespace BlogLab.Web.Controllers
                 Description = file.FileName
             };
 
-            var photo = _photoRepository.InsertAsync(photoCreate, applicationUserId);
+            var photo = await _photoRepository.InsertAsync(photoCreate, applicationUserId);
 
             return Ok(photo);
         }
@@ -101,7 +101,7 @@ namespace BlogLab.Web.Controllers
                         return BadRequest(deleteResult.Error.Message);
                     }
 
-                    var affectedRows = _photoRepository.DeleteAsync(photoId);
+                    var affectedRows = await _photoRepository.DeleteAsync(photoId);
                     return Ok(affectedRows);
                 }
                 return BadRequest("Photo does not belong to the current user");
