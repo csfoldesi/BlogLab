@@ -8,16 +8,28 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "eslint .",
-    "lint:fix": "eslint . --fix"    
+    "lint:fix": "eslint . --fix"
   },
   "eslintConfig": {
-    "extends": ["wesbos/typescript"],
+    "extends": [
+      "wesbos/typescript"
+    ],
     "rules": {
       "no-useless-constructor": 0,
       "@typescript-eslint/no-useless-constructor": 0,
       "no-empty-function": 0,
       "@typescript-eslint/no-empty-function": 0,
-      "class-methods-use-this": 0
+      "class-methods-use-this": 0,
+      "no-param-reassign": 0,
+      "prettier/prettier": [
+        "error",
+        {
+          "singleQuote": true,
+          "endOfLine": "auto",
+          "tabWidth": 4,
+          "bracketSameLine": true
+        }
+      ]      
     }
   },
   "private": true,
@@ -34,12 +46,13 @@
     "bootstrap": "^5.1.3",
     "eslint-config-wesbos": "^3.2.3",
     "ngx-bootstrap": "^10.2.0",
+    "ngx-toastr": "^16.1.0",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^15.1.3",
+    "@angular-devkit/build-angular": "^15.2.3",
     "@angular/cli": "~15.1.3",
     "@angular/compiler-cli": "^15.1.0",
     "@types/jasmine": "~4.3.0",
