@@ -1,0 +1,20 @@
+#home-section {
+    background: url(../../../assets/books.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    min-height: 600px;
+}
+
+#home-section .dark-overlay {
+    position: absolute;
+    top: 1;
+    left: 0;
+    width: 100%;
+    min-height: 600px;
+    background: rgba(0, 0, 0, 0.5);
+}
+
+.card-form {
+    background-color: #e8ebeb;
+}
