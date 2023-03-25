@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { ApplicationUserCreate } from '../models/account/application-user-create.model';
 import { ApplicationUserLogin } from '../models/account/application-user-login.model';
 import { ApplicationUser } from '../models/account/application-user.model';
 
@@ -42,7 +43,7 @@ export class AccountService {
         this.currentUserSubject$.next(user);
     }
 
-    register(model: ApplicationUserLogin): Observable<ApplicationUser> {
+    register(model: ApplicationUserCreate): Observable<ApplicationUser> {
         return this.http
             .post<ApplicationUser>(
                 `${environment.webApi}/Account/register`,
