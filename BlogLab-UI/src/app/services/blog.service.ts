@@ -8,36 +8,36 @@ import { Blog } from '../models/blog/blog.model';
 import { PagedResult } from '../models/blog/paged-result.model';
 
 @Injectable({
-  providedIn: 'root',
+    providedIn: 'root',
 })
 export class BlogService {
-  constructor(private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
 
-  create(model: BlogCreate): Observable<Blog> {
-    return this.http.post<Blog>(`${environment.webApi}/Blog`, model);
-  }
+    create(model: BlogCreate): Observable<Blog> {
+        return this.http.post<Blog>(`${environment.webApi}/Blog`, model);
+    }
 
-  getAll(blogPaging: BlogPaging): Observable<PagedResult<Blog>> {
-    return this.http.get<PagedResult<Blog>>(
-      `${environment.webApi}/Blog?Page=${blogPaging.page}&PageSize=${blogPaging.pageSize}`
-    );
-  }
+    getAll(blogPaging: BlogPaging): Observable<PagedResult<Blog>> {
+        return this.http.get<PagedResult<Blog>>(
+            `${environment.webApi}/Blog?Page=${blogPaging.page}&PageSize=${blogPaging.pageSize}`
+        );
+    }
 
-  get(blogId: number): Observable<Blog> {
-    return this.http.get<Blog>(`${environment.webApi}/Blog/${blogId}`);
-  }
+    get(blogId: number): Observable<Blog> {
+        return this.http.get<Blog>(`${environment.webApi}/Blog/${blogId}`);
+    }
 
-  getByApplicationUserId(applicationUserId: number): Observable<Blog[]> {
-    return this.http.get<Blog[]>(
-      `${environment.webApi}/Blog/user/${applicationUserId}`
-    );
-  }
+    getByApplicationUserId(applicationUserId: number): Observable<Blog[]> {
+        return this.http.get<Blog[]>(
+            `${environment.webApi}/Blog/user/${applicationUserId}`
+        );
+    }
 
-  getMostFamous(): Observable<Blog[]> {
-    return this.http.get<Blog[]>(`${environment.webApi}/Blog/famous`);
-  }
+    getMostFamous(): Observable<Blog[]> {
+        return this.http.get<Blog[]>(`${environment.webApi}/Blog/famous`);
+    }
 
-  delete(blogId: number): Observable<number> {
-    return this.http.delete<number>(`${environment.webApi}/Blog/${blogId}`);
-  }
+    delete(blogId: number): Observable<number> {
+        return this.http.delete<number>(`${environment.webApi}/Blog/${blogId}`);
+    }
 }
