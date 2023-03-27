@@ -1,5 +1,4 @@
 export class Blog {
-    
     constructor(
         public blogId: number,
         public title: string,
@@ -10,5 +9,5 @@ export class Blog {
         public updateDate: Date,
         public photoId?: number,
         public deleteConfirm: boolean = false
-    ) { }
+    ) {}
 }
