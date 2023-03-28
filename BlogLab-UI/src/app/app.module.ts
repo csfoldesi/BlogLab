@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ToastrModule } from 'ngx-toastr';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -65,6 +66,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
         BsDropdownModule.forRoot(),
         CollapseModule.forRoot(),
         TypeaheadModule.forRoot(),
+        CarouselModule.forRoot(),
     ],
     providers: [
         HttpClient,
