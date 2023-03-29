@@ -75,7 +75,7 @@ namespace BlogLab.Web.Controllers
                 }
             }
 
-            return BadRequest("Invalid login attempt.");
+            return Unauthorized("Invalid login attempt.");
         }
     }
 }

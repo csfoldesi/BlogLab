@@ -117,7 +117,7 @@ namespace BlogLab.Repository
 
             dataTable.Rows.Add(blogCreate.BlogId, blogCreate.Title, blogCreate.Content, blogCreate.PhotoId);
 
-            int? newBlogId;
+            int newBlogId = 0;
 
             using (var connection = new SqlConnection(_config.GetConnectionString("DefaultConnection")))
             {
@@ -129,9 +129,12 @@ namespace BlogLab.Repository
                     commandType: CommandType.StoredProcedure);
             }
 
-            newBlogId ??= blogCreate.BlogId;
+            if(newBlogId == 0)
+            {
+                newBlogId = blogCreate.BlogId;
+            }
 
-            Blog blog = await GetAsync(newBlogId.Value);
+            Blog blog = await GetAsync(newBlogId);
 
             return blog;
         }
