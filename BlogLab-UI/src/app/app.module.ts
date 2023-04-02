@@ -11,6 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BsDropdownModule } from 'ngx-bootstrap/dropdown';
 import { CollapseModule } from 'ngx-bootstrap/collapse';
 import { TypeaheadModule } from 'ngx-bootstrap/typeahead';
+import { PaginationModule } from 'ngx-bootstrap/pagination';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { ToastrModule } from 'ngx-toastr';
 
@@ -67,6 +68,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
         CollapseModule.forRoot(),
         TypeaheadModule.forRoot(),
         CarouselModule.forRoot(),
+        PaginationModule.forRoot(),
     ],
     providers: [
         HttpClient,
