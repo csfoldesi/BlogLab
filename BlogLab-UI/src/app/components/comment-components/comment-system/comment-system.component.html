@@ -1,8 +1,8 @@
 <ng-container *ngIf="accountService.isLoggedIn() && !!standaloneComment">
     <div class="mb-3">
-        <!-- <app-comment-box
+        <app-comment-box
             [comment]="standaloneComment"
-            (commentSaved)="onCommentSaved($event)"></app-comment-box> -->
+            (commentSaved)="onCommentSaved($event)"></app-comment-box>
     </div>
 </ng-container>
 
