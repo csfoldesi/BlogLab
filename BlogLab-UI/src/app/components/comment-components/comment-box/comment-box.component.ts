@@ -2,7 +2,6 @@ import {
     Component,
     EventEmitter,
     Input,
-    OnInit,
     Output,
     ViewChild,
 } from '@angular/core';
@@ -18,7 +17,7 @@ import { BlogComment } from '../../../models/blog-comment/blog-comment.model';
     templateUrl: './comment-box.component.html',
     styleUrls: ['./comment-box.component.css'],
 })
-export class CommentBoxComponent implements OnInit {
+export class CommentBoxComponent {
     @Input() comment!: BlogCommentViewModel;
 
     @Output() commentSaved = new EventEmitter<BlogComment>();
@@ -29,10 +28,6 @@ export class CommentBoxComponent implements OnInit {
         private blogCommentService: BlogCommentService,
         private toastr: ToastrService
     ) {}
-
-    ngOnInit(): void {
-        throw new Error('Method not implemented.');
-    }
 
     resetComment(): void {
         this.commentForm?.reset();
@@ -49,9 +44,9 @@ export class CommentBoxComponent implements OnInit {
         this.blogCommentService
             .create(blogCommentCreate)
             .subscribe((blogComment) => {
-                this.commentSaved.emit(blogComment);
-                this.resetComment();
                 this.toastr.info('Comment saved');
+                this.resetComment();
+                this.commentSaved.emit(blogComment);
             });
     }
 }
