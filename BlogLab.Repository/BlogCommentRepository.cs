@@ -75,7 +75,7 @@ namespace BlogLab.Repository
             dataTable.Columns.Add("Content", typeof(string));
             dataTable.Rows.Add(blogCommentCreate.BlogCommentId, blogCommentCreate.ParentBlogCommentId, blogCommentCreate.BlogId, blogCommentCreate.Content);
             
-            int? newBlogCommentId;
+            int newBlogCommentId = 0;
             using (var connection = new SqlConnection(_config.GetConnectionString("DefaultConnection")))
             {
                 await connection.OpenAsync();
@@ -85,9 +85,10 @@ namespace BlogLab.Repository
                     commandType: CommandType.StoredProcedure);
             }
 
-            newBlogCommentId ??= blogCommentCreate.BlogCommentId;
+            if(newBlogCommentId == 0)
+                newBlogCommentId = blogCommentCreate.BlogCommentId;
 
-            BlogComment blogComment = await GetAsync(newBlogCommentId.Value);
+            BlogComment blogComment = await GetAsync(newBlogCommentId);
 
             return blogComment;
         }
