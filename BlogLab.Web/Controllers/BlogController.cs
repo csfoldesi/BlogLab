@@ -54,7 +54,14 @@ namespace BlogLab.Web.Controllers
         public async Task<ActionResult<Blog>> Get(int blogId)
         {
             var blog = await _blogRepository.GetAsync(blogId);
-            return Ok(blog);
+            if(blog != null)
+            {
+                return Ok(blog);
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
         [HttpGet("user/{applicationUserId}")]
